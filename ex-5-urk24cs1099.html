@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ArtNest - Online Art Supply Store</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff8f0;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        nav {
+            background-color: #6a1b9a;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 12px 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #ffd54f;
+        }
+
+        header {
+            background: linear-gradient(
+                rgba(74, 20, 140, 0.75),
+                rgba(74, 20, 140, 0.75)
+            ),
+            url("https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200");
+
+            background-size: cover;
+            background-position: center;
+
+            color: white;
+            padding: 45px 20px 35px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        header p {
+            margin: 10px 0 0;
+            font-size: 15px;
+            color: #f3e5f5;
+        }
+
+        .products-section {
+            max-width: 950px;
+            margin: 30px auto 0;
+            padding: 0 20px;
+        }
+
+        .products-section h2 {
+            text-align: center;
+            color: #6a1b9a;
+            border-bottom: 2px solid #6a1b9a;
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .heading-wrap {
+            text-align: center;
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            background: #fff;
+            border: 1px solid #e1bee7;
+            border-left: 5px solid #8e24aa;
+            border-radius: 6px;
+            padding: 14px 16px;
+            width: 200px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        }
+
+        .product-card .emoji {
+            font-size: 30px;
+        }
+
+        .product-card h3 {
+            margin: 8px 0 4px;
+            font-size: 16px;
+            color: #4a148c;
+        }
+
+        .product-card p {
+            margin: 0;
+            font-size: 12.5px;
+            color: #555;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .status.available {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status.popular {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .status.premium {
+            background: #ede7f6;
+            color: #6a1b9a;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        }
+
+        fieldset {
+            border: 1px solid #8e24aa;
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+        legend {
+            font-weight: bold;
+            color: #6a1b9a;
+            padding: 0 8px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .inline-group {
+            margin-top: 6px;
+        }
+
+        .inline-group label {
+            display: inline-block;
+            font-weight: normal;
+            margin-right: 15px;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #6a1b9a;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background-color: #4a148c;
+        }
+
+        #resultSection {
+            margin-top: 30px;
+            display: none;
+        }
+
+        #resultSection h2 {
+            text-align: center;
+            color: #6a1b9a;
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            color: #6a1b9a;
+            font-size: 14px;
+        }
+
+        table td:first-child {
+            font-weight: bold;
+            width: 40%;
+            color: #222;
+        }
+
+        footer {
+            text-align: center;
+            background: #4a148c;
+            color: #f3e5f5;
+            padding: 18px;
+            margin-top: 40px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Art Supplies</a>
+        <a href="#">Painting</a>
+        <a href="#">Drawing</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <h1>🎨 ArtNest - Online Art Supply Store</h1>
+
+        <p>
+            Quality art supplies for students, beginners, hobby artists,
+            and professional creators.
+        </p>
+
+        <p>
+            Designed by: <b>THEEPAN SS</b> |
+            Register Number: <b>URK24CS1099</b>
+        </p>
+    </header>
+
+    <!-- Product Categories -->
+    <div class="products-section">
+
+        <div class="heading-wrap">
+            <h2>Our Art Supplies</h2>
+        </div>
+
+        <div class="product-grid">
+
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="emoji">🎨</div>
+
+                <h3>Watercolor Set</h3>
+
+                <p>
+                    Bright and smooth colors for creative paintings.
+                </p>
+
+                <span class="status available">
+                    Available
+                </span>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="emoji">🖌</div>
+
+                <h3>Artist Brushes</h3>
+
+                <p>
+                    High-quality brushes for detailed artwork.
+                </p>
+
+                <span class="status popular">
+                    Popular
+                </span>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="emoji">✏</div>
+
+                <h3>Drawing Pencils</h3>
+
+                <p>
+                    Professional pencils for sketching and shading.
+                </p>
+
+                <span class="status available">
+                    Available
+                </span>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="emoji">📒</div>
+
+                <h3>Sketchbook</h3>
+
+                <p>
+                    Premium paper suitable for drawings and sketches.
+                </p>
+
+                <span class="status premium">
+                    Premium
+                </span>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="emoji">🖼</div>
+
+                <h3>Canvas Board</h3>
+
+                <p>
+                    Strong canvas boards for acrylic and oil paintings.
+                </p>
+
+                <span class="status available">
+                    Available
+                </span>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="emoji">🖍</div>
+
+                <h3>Acrylic Paints</h3>
+
+                <p>
+                    Vibrant acrylic colors for creative artwork.
+                </p>
+
+                <span class="status popular">
+                    Popular
+                </span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Customer Registration Form -->
+    <div class="container">
+
+        <h2 style="text-align:center; color:#6a1b9a; margin-bottom:5px;">
+            Customer Registration
+        </h2>
+
+        <p style="text-align:center; color:#555; font-size:14px; margin-top:0;">
+            Fill in your details to shop for your favorite art supplies.
+        </p>
+
+        <fieldset>
+
+            <legend>
+                Customer Details Form
+            </legend>
+
+            <form id="regForm">
+
+                <!-- Name -->
+                <label for="name">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    required
+                >
+
+                <!-- Password -->
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    required
+                >
+
+                <!-- Age -->
+                <label for="age">
+                    Age
+                </label>
+
+                <input
+                    type="number"
+                    id="age"
+                    min="1"
+                    required
+                >
+
+                <!-- Mobile -->
+                <label for="mobile">
+                    Mobile Number
+                </label>
+
+                <input
+                    type="text"
+                    id="mobile"
+                    required
+                >
+
+                <!-- Email -->
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    required
+                >
+
+                <!-- Gender -->
+                <label>
+                    Gender
+                </label>
+
+                <div class="inline-group">
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Male"
+                            checked
+                        >
+                        Male
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Female"
+                        >
+                        Female
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="gender"
+                            value="Other"
+                        >
+                        Other
+                    </label>
+
+                </div>
+
+                <!-- State -->
+                <label for="state">
+                    State
+                </label>
+
+                <select id="state">
+
+                    <option>
+                        Tamil Nadu
+                    </option>
+
+                    <option>
+                        Kerala
+                    </option>
+
+                    <option>
+                        Karnataka
+                    </option>
+
+                    <option>
+                        Andhra Pradesh
+                    </option>
+
+                    <option>
+                        Maharashtra
+                    </option>
+
+                    <option>
+                        Other
+                    </option>
+
+                </select>
+
+                <!-- Art Skills -->
+                <label>
+                    Art Skills
+                </label>
+
+                <div class="inline-group">
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="skills"
+                            value="Drawing"
+                        >
+                        Drawing
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="skills"
+                            value="Painting"
+                        >
+                        Painting
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="skills"
+                            value="Sketching"
+                        >
+                        Sketching
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="skills"
+                            value="Craft"
+                        >
+                        Craft
+                    </label>
+
+                </div>
+
+                <!-- Submit Button -->
+                <button
+                    type="submit"
+                    id="submitBtn"
+                >
+                    Register
+                </button>
+
+            </form>
+
+        </fieldset>
+
+        <!-- Result Section -->
+        <div id="resultSection">
+
+            <h2>
+                Customer Submitted Details
+            </h2>
+
+            <table id="resultTable"></table>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+
+        🎨 Every artist needs the right tools.
+        Keep creating with ArtNest.
+
+        <br>
+
+        &copy; 2026 ArtNest - Online Art Supply Store |
+
+        Designed by
+        <b>THEEPAN SS</b>
+        (URK24CS1099)
+
+    </footer>
+
+    <script>
+
+        // Form submission event
+
+        document
+            .getElementById("regForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    // Prevent page refresh
+                    event.preventDefault();
+
+                    // Get form values
+
+                    var name =
+                        document.getElementById("name").value;
+
+                    var password =
+                        document.getElementById("password").value;
+
+                    var age =
+                        document.getElementById("age").value;
+
+                    var mobile =
+                        document.getElementById("mobile").value;
+
+                    var email =
+                        document.getElementById("email").value;
+
+
+                    // Get gender
+
+                    var gender =
+                        document.querySelector(
+                            'input[name="gender"]:checked'
+                        ).value;
+
+
+                    // Get state
+
+                    var state =
+                        document.getElementById("state").value;
+
+
+                    // Get selected art skills
+
+                    var skillNodes =
+                        document.querySelectorAll(
+                            'input[name="skills"]:checked'
+                        );
+
+                    var skills = [];
+
+
+                    for (
+                        var i = 0;
+                        i < skillNodes.length;
+                        i++
+                    ) {
+
+                        skills.push(
+                            skillNodes[i].value
+                        );
+
+                    }
+
+
+                    // Display None if no skill is selected
+
+                    var skillsText =
+                        skills.length > 0
+                            ? skills.join(", ")
+                            : "None";
+
+
+                    // Create result rows
+
+                    var rows = [
+
+                        ["Name", name],
+
+                        ["Password", password],
+
+                        ["Age", age],
+
+                        ["Mobile Number", mobile],
+
+                        ["Email", email],
+
+                        ["Gender", gender],
+
+                        ["State", state],
+
+                        ["Art Skills", skillsText]
+
+                    ];
+
+
+                    // Create table HTML
+
+                    var tableHTML = "";
+
+
+                    for (
+                        var j = 0;
+                        j < rows.length;
+                        j++
+                    ) {
+
+                        tableHTML +=
+                            "<tr>" +
+                            "<td>" +
+                            rows[j][0] +
+                            "</td>" +
+                            "<td>" +
+                            rows[j][1] +
+                            "</td>" +
+                            "</tr>";
+
+                    }
+
+
+                    // Display result table
+
+                    document
+                        .getElementById("resultTable")
+                        .innerHTML = tableHTML;
+
+
+                    // Show result section
+
+                    document
+                        .getElementById("resultSection")
+                        .style.display = "block";
+
+
+                    // Scroll to result
+
+                    document
+                        .getElementById("resultSection")
+                        .scrollIntoView({
+                            behavior: "smooth"
+                        });
+
+                }
+            );
+
+    </script>
+
+</body>
+</html>

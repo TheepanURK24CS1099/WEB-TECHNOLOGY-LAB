@@ -1,0 +1,483 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ArtNest - Online Art Supply Store</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #fff8f0;
+            color: #4a2c2a;
+        }
+
+        /* ---------- Hero Header ---------- */
+        .header {
+            background: linear-gradient(
+                rgba(70, 30, 60, 0.75),
+                rgba(70, 30, 60, 0.75)
+            ),
+            url("https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1200");
+
+            background-size: cover;
+            background-position: center;
+
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .header img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 4px solid white;
+        }
+
+        .header h1 {
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-weight: bold;
+            font-size: 36px;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 6px black;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* ---------- Navigation ---------- */
+        .navbar {
+            background-color: #7b1fa2;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+        }
+
+        .navbar li {
+            display: inline;
+        }
+
+        .navbar li a {
+            display: inline-block;
+            padding: 14px 22px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navbar li a:link {
+            background-color: #7b1fa2;
+        }
+
+        .navbar li a:visited {
+            background-color: #7b1fa2;
+        }
+
+        .navbar li a:hover {
+            background-color: #ab47bc;
+        }
+
+        .navbar li a:active {
+            background-color: #4a148c;
+        }
+
+        /* ---------- Section Wrapper ---------- */
+        .section {
+            max-width: 1000px;
+            margin: 0 auto;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        .section h2 {
+            color: #7b1fa2;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            font-size: 26px;
+            text-decoration: underline;
+            letter-spacing: 1px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* ---------- About Card ---------- */
+        .intro {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .intro p {
+            color: #4a2c2a;
+            text-align: justify;
+            letter-spacing: 0.5px;
+            line-height: 1.7;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        /* ---------- Product Categories ---------- */
+        .products {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .products div {
+            background-color: #8e24aa;
+            color: white;
+            width: 180px;
+            height: 140px;
+            text-align: center;
+            padding-top: 45px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .products div:hover {
+            transform: translateY(-8px);
+            background-color: #6a1b9a;
+        }
+
+        /* ---------- Store Statistics ---------- */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background-color: white;
+            border: 2px solid #8e24aa;
+            width: 190px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-box .number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #8e24aa;
+        }
+
+        /* ---------- Benefits ---------- */
+        .benefits {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        ul.benefit-list {
+            list-style-type: circle;
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        /* ---------- Team / Customer Service ---------- */
+        .team {
+            background-color: #4a148c;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            text-align: center;
+        }
+
+        .team h2 {
+            color: white;
+        }
+
+        .team-member {
+            display: inline-block;
+            width: 220px;
+            margin: 10px 15px;
+            color: white;
+            vertical-align: top;
+            padding: 15px;
+            border-radius: 10px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .team-member:hover {
+            background-color: #6a1b9a;
+            transform: translateY(-5px);
+        }
+
+        .team-member img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid #ce93d8;
+        }
+
+        .team-member h3 {
+            color: #e1bee7;
+            text-decoration: underline;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .team-member p {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+
+        <img
+            src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?w=300"
+            alt="Art Supplies">
+
+        <h1>ArtNest - Online Art Supply Store</h1>
+
+        <p>
+            Your one-stop online store for paints, brushes, pencils,
+            sketchbooks, canvases, and creative art materials.
+        </p>
+
+        <p>
+            <b>SUGANTH PIRANAV.P</b> |
+            Register Number: <b>URK24CS1106</b>
+        </p>
+
+    </div>
+
+    <!-- Navigation -->
+    <ul class="navbar">
+
+        <li>
+            <a href="#about">About</a>
+        </li>
+
+        <li>
+            <a href="#products">Products</a>
+        </li>
+
+        <li>
+            <a href="#impact">Store Statistics</a>
+        </li>
+
+        <li>
+            <a href="#help">Benefits</a>
+        </li>
+
+        <li>
+            <a href="#team">Our Team</a>
+        </li>
+
+    </ul>
+
+    <!-- About Section -->
+    <div class="section" id="about">
+
+        <h2>About ArtNest</h2>
+
+        <div class="intro">
+
+            <p>
+                ArtNest is an online art supply store designed for students,
+                beginners, hobby artists, and professional artists. We provide
+                quality art materials at affordable prices.
+            </p>
+
+            <p>
+                Our store offers a wide range of products including paints,
+                brushes, drawing pencils, sketchbooks, canvas boards, markers,
+                and craft materials. Customers can easily explore products
+                and choose the supplies that match their creative needs.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Product Categories -->
+    <div class="section" id="products">
+
+        <h2>Our Product Categories</h2>
+
+        <div class="products">
+
+            <div>
+                Painting<br>
+                Supplies
+            </div>
+
+            <div>
+                Drawing<br>
+                Supplies
+            </div>
+
+            <div>
+                Brushes<br>
+                &amp; Tools
+            </div>
+
+            <div>
+                Canvas<br>
+                &amp; Paper
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Store Statistics -->
+    <div class="section" id="impact">
+
+        <h2>Our Store Statistics</h2>
+
+        <div class="stats">
+
+            <div class="stat-box">
+                <div class="number">500+</div>
+                Products
+            </div>
+
+            <div class="stat-box">
+                <div class="number">2,500+</div>
+                Customers
+            </div>
+
+            <div class="stat-box">
+                <div class="number">150+</div>
+                Art Brands
+            </div>
+
+            <div class="stat-box">
+                <div class="number">4.8/5</div>
+                Customer Rating
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Benefits Section -->
+    <div class="section" id="help">
+
+        <h2>Why Choose ArtNest?</h2>
+
+        <div class="benefits">
+
+            <ul class="benefit-list">
+
+                <li>
+                    Wide range of quality art supplies.
+                </li>
+
+                <li>
+                    Affordable prices for students and artists.
+                </li>
+
+                <li>
+                    Easy and convenient online ordering.
+                </li>
+
+                <li>
+                    Secure payment options.
+                </li>
+
+                <li>
+                    Fast and reliable delivery.
+                </li>
+
+                <li>
+                    Customer support for product-related queries.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- Team Section -->
+    <div class="team" id="team">
+
+        <h2>Our Customer Support Team</h2>
+
+        <div class="team-member">
+
+            <img
+                src="https://i.pravatar.cc/150?img=12"
+                alt="Store Manager">
+
+            <h3>Store Manager</h3>
+
+            <p>
+                Manages store operations and ensures customers
+                receive quality art products.
+            </p>
+
+        </div>
+
+        <div class="team-member">
+
+            <img
+                src="https://i.pravatar.cc/150?img=33"
+                alt="Product Coordinator">
+
+            <h3>Product Coordinator</h3>
+
+            <p>
+                Manages product categories and keeps the
+                art supply collection updated.
+            </p>
+
+        </div>
+
+        <div class="team-member">
+
+            <img
+                src="https://i.pravatar.cc/150?img=51"
+                alt="Customer Support">
+
+            <h3>Customer Support</h3>
+
+            <p>
+                Helps customers with orders, products,
+                delivery, and other queries.
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+```

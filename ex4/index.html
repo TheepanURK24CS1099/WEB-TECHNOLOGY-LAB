@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ArtNest - Sign In & Sign Up</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff8f0;
+        }
+
+        /* ---------- Header ---------- */
+
+        .site-header {
+            background-color: #6a1b9a;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 30px;
+        }
+
+        .logo-badge {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 3px solid #ffca28;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .site-header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .site-header h1 .accent {
+            color: #ffca28;
+        }
+
+        /* ---------- Navigation ---------- */
+
+        .navbar {
+            background-color: #4a148c;
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+            border-bottom: 2px solid #ffca28;
+        }
+
+        .navbar li {
+            position: relative;
+        }
+
+        .navbar li a {
+            display: block;
+            padding: 14px 24px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .navbar li a:hover {
+            background-color: #ffca28;
+            color: #4a148c;
+        }
+
+        .navbar li.active a {
+            background-color: #ffca28;
+            color: #4a148c;
+        }
+
+        /* ---------- Dropdown ---------- */
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #4a148c;
+            list-style: none;
+            width: 200px;
+            padding: 0;
+            margin: 0;
+            z-index: 5;
+        }
+
+        .navbar li:hover .dropdown {
+            display: block;
+        }
+
+        .dropdown li a {
+            padding: 12px 20px;
+            font-weight: normal;
+        }
+
+        .dropdown li a:hover {
+            background-color: #8e24aa;
+            color: white;
+        }
+
+        /* ---------- Hero + Authentication Forms ---------- */
+
+        .hero {
+            background:
+                linear-gradient(
+                    rgba(255, 235, 245, 0.55),
+                    rgba(255, 235, 245, 0.55)
+                ),
+                url("https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=1600");
+
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+
+            padding: 60px 30px;
+            min-height: 600px;
+        }
+
+        /* ---------- Authentication Box ---------- */
+
+        .auth-box {
+            background-color: #fff8ff;
+            border: 2px solid #8e24aa;
+            border-radius: 15px;
+            padding: 30px;
+            width: 320px;
+
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        }
+
+        .auth-box h2 {
+            color: #6a1b9a;
+            border-bottom: 3px solid #ffca28;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .auth-box label {
+            display: block;
+            font-weight: bold;
+            color: #4a148c;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        .auth-box input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #bbb;
+            background-color: #ffffff;
+        }
+
+        .auth-box input:focus {
+            outline: none;
+            border: 2px solid #8e24aa;
+        }
+
+        .auth-box input[type="submit"] {
+            margin-top: 25px;
+            background-color: #6a1b9a;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .auth-box input[type="submit"]:hover {
+            background-color: #8e24aa;
+        }
+
+        /* ---------- Footer ---------- */
+
+        footer {
+            background-color: #4a148c;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer .org {
+            color: #ffca28;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+
+        footer .copyright {
+            margin: 0;
+            font-size: 13px;
+        }
+
+        /* ---------- Responsive Design ---------- */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                flex-direction: column;
+            }
+
+            .navbar li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                width: 100%;
+            }
+
+            .hero {
+                gap: 30px;
+                padding: 40px 20px;
+            }
+
+            .auth-box {
+                width: 90%;
+                max-width: 350px;
+            }
+
+            .site-header {
+                justify-content: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <header class="site-header">
+
+        <div class="logo-badge">
+            ART
+        </div>
+
+        <h1>
+            Art<span class="accent">Nest</span>
+        </h1>
+
+    </header>
+
+
+    <!-- Navigation -->
+
+    <ul class="navbar">
+
+        <li class="active">
+
+            <a href="#">Home</a>
+
+            <ul class="dropdown">
+
+                <li>
+                    <a href="#">Paints</a>
+                </li>
+
+                <li>
+                    <a href="#">Brushes</a>
+                </li>
+
+                <li>
+                    <a href="#">Drawing Tools</a>
+                </li>
+
+                <li>
+                    <a href="#">Canvas &amp; Paper</a>
+                </li>
+
+            </ul>
+
+        </li>
+
+        <li>
+            <a href="#">About</a>
+        </li>
+
+        <li>
+            <a href="#">Products</a>
+        </li>
+
+        <li>
+            <a href="#">Offers</a>
+        </li>
+
+    </ul>
+
+
+    <!-- Sign In / Sign Up -->
+
+    <section class="hero">
+
+        <!-- Sign In -->
+
+        <div class="auth-box">
+
+            <h2>Sign In</h2>
+
+            <form>
+
+                <label for="login">
+                    Username / Email
+                </label>
+
+                <input
+                    type="text"
+                    id="login"
+                    placeholder="Enter your username or email"
+                    required>
+
+                <label for="login-password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="login-password"
+                    placeholder="Enter your password"
+                    required>
+
+                <input
+                    type="submit"
+                    value="Sign In">
+
+            </form>
+
+        </div>
+
+
+        <!-- Sign Up -->
+
+        <div class="auth-box">
+
+            <h2>Sign Up</h2>
+
+            <form>
+
+                <label for="fullname">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="fullname"
+                    placeholder="Enter your name"
+                    required>
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required>
+
+                <label for="signup-password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="signup-password"
+                    placeholder="Create a password"
+                    required>
+
+                <label for="confirm-password">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirm-password"
+                    placeholder="Confirm your password"
+                    required>
+
+                <input
+                    type="submit"
+                    value="Sign Up">
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p class="org">
+            ArtNest Online Art Supply Store · Coimbatore, Tamil Nadu
+        </p>
+
+        <p class="copyright">
+            &copy; 2026-2027.
+            (URK24CS1099) - Web Technology Lab · All Rights Reserved.
+            <br>
+            Designed by <b>THEEPAN SS</b>
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

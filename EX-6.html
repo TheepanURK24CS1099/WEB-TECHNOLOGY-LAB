@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Art Supply Store - JS Styles & Animations</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+            background: #fff8f0;
+            color: #4e342e;
+        }
+
+        h1 {
+            color: #6a1b9a;
+        }
+
+        h2 {
+            color: #8e24aa;
+        }
+
+        section {
+            background: #ffffff;
+            border: 1px solid #e1bee7;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        button {
+            margin: 6px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #8e24aa;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #6a1b9a;
+        }
+
+        /* Art shelf for animation */
+        #artShelf {
+            width: 320px;
+            height: 100px;
+            position: relative;
+            background: #ffe0b2;
+            margin: 15px auto;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #paintBrush {
+            font-size: 34px;
+            position: absolute;
+            left: 0;
+            top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Online Art Supply Store</h1>
+
+    <p><b>Name:</b> Theepan</p>
+    <p><b>Roll Number:</b> URK24CS1099</p>
+
+    <!-- 1. Change Style -->
+    <section>
+        <h2 id="title">Premium Art Supplies</h2>
+
+        <button onclick="changeStyle()">
+            Highlight Product
+        </button>
+    </section>
+
+
+    <!-- 2. Show / Hide -->
+    <section>
+        <h2>Art Supply Information</h2>
+
+        <p id="msg">
+            Explore high-quality paints, brushes, sketchbooks,
+            pencils and other creative supplies for artists.
+        </p>
+
+        <button onclick="hideText()">
+            Hide Information
+        </button>
+
+        <button onclick="showText()">
+            Show Information
+        </button>
+    </section>
+
+
+    <!-- 3. Movement Animation -->
+    <section>
+        <h2>Art Supply Delivery</h2>
+
+        <div id="artShelf">
+            <div id="paintBrush">🎨</div>
+        </div>
+
+        <button onclick="move()">
+            Start Delivery
+        </button>
+    </section>
+
+
+    <!-- 4. Fade Animation -->
+    <section>
+        <h2>Special Art Offer</h2>
+
+        <div id="fadeBox"
+             style="
+             width:100px;
+             height:100px;
+             background:#ffb74d;
+             border-radius:50%;
+             margin:15px auto;
+             display:flex;
+             align-items:center;
+             justify-content:center;
+             font-size:36px;">
+            🖌️
+        </div>
+
+        <p>Limited-time art supply offer</p>
+
+        <button onclick="fade()">
+            Simulate Offer
+        </button>
+    </section>
+
+
+    <script>
+
+        // 1. Change Style
+        // Highlights the premium art supplies heading
+
+        function changeStyle() {
+
+            let text = document.getElementById("title");
+
+            text.style.color = "#e65100";
+            text.style.fontSize = "30px";
+            text.style.backgroundColor = "#fff3e0";
+        }
+
+
+        // 2. Show / Hide
+        // Shows and hides the art supply information
+
+        function hideText() {
+
+            document.getElementById("msg").style.display = "none";
+        }
+
+
+        function showText() {
+
+            document.getElementById("msg").style.display = "block";
+        }
+
+
+        // 3. Move Animation
+        // Moves the paint brush across the art shelf
+
+        function move() {
+
+            let brush = document.getElementById("paintBrush");
+
+            let pos = 0;
+
+            let id = setInterval(frame, 10);
+
+            function frame() {
+
+                if (pos == 270) {
+
+                    clearInterval(id);
+
+                } else {
+
+                    pos++;
+
+                    brush.style.left = pos + "px";
+                }
+            }
+        }
+
+
+        // 4. Fade Animation
+        // Simulates a limited-time art offer
+
+        function fade() {
+
+            let box = document.getElementById("fadeBox");
+
+            let opacity = 1;
+
+            let id = setInterval(function () {
+
+                if (opacity <= 0) {
+
+                    clearInterval(id);
+
+                    // Reset opacity for the next click
+                    box.style.opacity = 1;
+
+                } else {
+
+                    opacity -= 0.05;
+
+                    box.style.opacity = opacity;
+                }
+
+            }, 50);
+        }
+
+    </script>
+
+</body>
+</html>

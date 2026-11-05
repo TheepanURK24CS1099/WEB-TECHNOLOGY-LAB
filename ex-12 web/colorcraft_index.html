@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COLORCRAFT | Art Supply Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #faf5ec; color: #2b2118;
+  font-family: 'Poppins', sans-serif;
+}
+
+a { color: inherit; text-decoration: none; }
+
+button, input, select { font: inherit; }
+
+/* Navigation */
+.topbar {
+  padding: 20px 7%;
+  display: flex; justify-content: space-between; align-items: center;
+  background: #fff8ee; border-bottom: 1px solid #e6d9c3;
+  position: sticky; top: 0; z-index: 5;
+}
+.topbar h2 { font: 800 18px 'Lora', serif; }
+.topbar nav { display: flex; gap: 25px; }
+.topbar nav a { color: #6b5a48; font-size: 12px; }
+
+/* Hero Section */
+.hero {
+  padding: 70px 9%; min-height: 350px;
+  background: radial-gradient(circle, #e8b04a33, #faf5ec);
+}
+.hero h1 { font: 800 55px 'Lora', serif; margin: 15px 0; }
+.hero p { color: #6b5a48; line-height: 1.9; font-size: 13px; }
+.hero a {
+  display: inline-block; padding: 13px 18px; margin-top: 20px; border-radius: 7px;
+  background: linear-gradient(100deg, #c2542d, #9a3f1f); color: white;
+}
+
+/* Statistics */
+.stats {
+  padding: 0 9% 40px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+}
+.stats h3 {
+  background: #fff8ee; border: 1px solid #e2d3ba; border-radius: 10px; padding: 18px;
+  font: 700 16px 'Lora', serif;
+}
+
+/* Dashboard */
+.workspace {
+  padding: 40px 9% 80px; background: #f3ebdc;
+  display: grid; grid-template-columns: 1.45fr .8fr; gap: 18px; align-items: start;
+}
+.panel {
+  background: #fff8ee; border: 1px solid #e2d3ba; border-radius: 10px; padding: 18px;
+  min-width: 0;
+}
+.panel h2 { font: 700 20px 'Lora', serif; margin-bottom: 18px; }
+.notice {
+  padding: 10px; margin-bottom: 14px; color: #8a3b1c; background: #e8b04a22;
+  border-radius: 6px; font-size: 11px;
+}
+
+/* Records Table */
+table { width: 100%; border-collapse: collapse; }
+th, td {
+  padding: 13px 9px; text-align: left; border-bottom: 1px solid #e6d9c3;
+  font-size: 12px; color: #6b5a48;
+}
+th { color: #8a7762; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+td button {
+  padding: 7px 10px; margin-right: 5px; border: 1px solid #d9b89a; background: transparent;
+  color: #8a3b1c; border-radius: 5px; cursor: pointer;
+}
+td button:last-child { color: #b8454a; border-color: #d98a8a; }
+
+/* Product Entry Form */
+form { display: grid; gap: 10px; }
+input, select {
+  width: 100%; padding: 11px; background: #ffffff; color: #2b2118;
+  border: 1px solid #dccdb4; border-radius: 7px;
+}
+input:focus, select:focus { outline: none; border-color: #c2542d; }
+form button {
+  padding: 12px; border: 0; border-radius: 7px; cursor: pointer;
+  background: linear-gradient(100deg, #c2542d, #9a3f1f); color: white; font-weight: 600;
+}
+
+/* Footer */
+footer {
+  padding: 25px 9%; background: #fff8ee; border-top: 1px solid #e6d9c3;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+}
+footer p { color: #8a7762; font-size: 11px; }
+
+/* Responsive Design */
+@media (max-width: 850px) {
+  .workspace { grid-template-columns: 1fr; padding-left: 6%; padding-right: 6%; }
+}
+@media (max-width: 580px) {
+  .topbar { flex-wrap: wrap; gap: 15px; }
+  .topbar nav { gap: 15px; }
+  .hero { padding: 50px 6%; }
+  .hero h1 { font-size: 38px; }
+  .stats { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 15px; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useEffect, useState } = React;
+
+const API = "/api/products";
+
+// Demo data used only when the Express/MongoDB backend is not reachable
+// (for example, when this file is opened directly from your computer).
+let demoProducts = [
+  { _id: "1", name: "Acrylic Paint Set (24 colors)", category: "Paints" },
+  { _id: "2", name: "Round Brush Set", category: "Brushes" },
+  { _id: "3", name: "Stretched Canvas 12x16", category: "Canvas" }
+];
+
+async function request(method, id, body) {
+  const url = id ? `${API}/${id}` : API;
+  try {
+    const res = await fetch(url, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    if (!res.ok) throw new Error("API error");
+    return { data: await res.json(), demo: false };
+  } catch (err) {
+    // Backend not available: fall back to in-memory demo data
+    if (method === "GET") return { data: [...demoProducts], demo: true };
+    if (method === "POST") demoProducts.push({ _id: String(Date.now()), ...body });
+    if (method === "PUT") demoProducts = demoProducts.map(p => p._id === id ? { ...p, ...body } : p);
+    if (method === "DELETE") demoProducts = demoProducts.filter(p => p._id !== id);
+    return { data: null, demo: true };
+  }
+}
+
+function App() {
+  const [products, setProducts] = useState([]);
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [editId, setEditId] = useState(null);
+  const [demo, setDemo] = useState(false);
+
+  async function loadProducts() {
+    const { data, demo } = await request("GET");
+    setProducts(data);
+    setDemo(demo);
+  }
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const product = { name, category };
+    await request(editId ? "PUT" : "POST", editId, product);
+    setName("");
+    setCategory("");
+    setEditId(null);
+    loadProducts();
+  }
+
+  function editProduct(product) {
+    setEditId(product._id);
+    setName(product.name);
+    setCategory(product.category);
+    window.location.hash = "product-form";
+  }
+
+  async function deleteProduct(id) {
+    if (window.confirm("Delete this record?")) {
+      await request("DELETE", id);
+      loadProducts();
+    }
+  }
+
+  return (
+    <div className="app-shell">
+      <header className="topbar">
+        <h2>COLORCRAFT</h2>
+        <nav>
+          <a href="#dashboard">Dashboard</a>
+          <a href="#records">Records</a>
+          <a href="#product-form">Add Product</a>
+        </nav>
+      </header>
+
+      <main>
+        <section className="hero" id="dashboard">
+          <h1>MANAGE YOUR ART INVENTORY</h1>
+          <p>Organize and manage art supply records easily.</p>
+          <a href="#product-form">Add New Product</a>
+        </section>
+
+        <section className="stats">
+          <h3>Total Records: {products.length}</h3>
+          <h3>CRUD Operations: 4</h3>
+          <h3>Database: MongoDB</h3>
+        </section>
+
+        <section className="workspace">
+          <section className="panel" id="records">
+            <h2>Product Records</h2>
+            {demo && (
+              <div className="notice">
+                Demo mode: backend not connected, so records are kept in memory only.
+              </div>
+            )}
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.map((p) => (
+                  <tr key={p._id}>
+                    <td>{p.name}</td>
+                    <td>{p.category}</td>
+                    <td>
+                      <button onClick={() => editProduct(p)}>Edit</button>
+                      <button onClick={() => deleteProduct(p._id)}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section className="panel" id="product-form">
+            <h2>{editId ? "Update Product" : "Add New Product"}</h2>
+            <form onSubmit={handleSubmit}>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Product Name"
+                required
+              />
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                required
+              >
+                <option value="">Select Category</option>
+                <option value="Paints">Paints</option>
+                <option value="Brushes">Brushes</option>
+                <option value="Canvas">Canvas</option>
+                <option value="Sketchbooks">Sketchbooks</option>
+                <option value="Pencils">Pencils</option>
+              </select>
+              <button type="submit">
+                {editId ? "Update Product" : "Add Product"}
+              </button>
+            </form>
+          </section>
+        </section>
+      </main>
+
+      <footer>
+        <h3>COLORCRAFT</h3>
+        <p>React · Node.js · Express · MongoDB</p>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
